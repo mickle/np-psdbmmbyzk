@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>1500 N Shore Dr NE — Interactive pro forma (DRAFT)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+Display:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1F3A5F;--gold:#C9A25E;--ink:#1d2533;--mute:#6b7685;--line:#e3e8ee;--bg:#f6f7f9;--red:#a8423b;--green:#2e7d5b;--cream:#FDFAF3}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,"Helvetica Neue",Arial,sans-serif;color:var(--ink);background:var(--bg);font-size:14px;line-height:1.4}
+header{background:#14233a;color:#fff;padding:18px 24px 14px;border-bottom:3px solid var(--gold)}
+header .eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
+header h1{font-family:"Noto Serif Display",Georgia,serif;font-weight:600;font-size:28px;margin:4px 0 6px}
+header p{margin:0;color:#c9d2de;font-size:13px;max-width:900px}
+.draft{display:inline-block;border:1px solid #c9d2de;border-radius:3px;padding:1px 7px;font-size:10px;letter-spacing:1.5px;margin-left:8px;vertical-align:4px;color:#fff}
+.wrap{display:grid;grid-template-columns:360px 1fr;gap:18px;padding:18px 24px;max-width:1400px;margin:0 auto}
+aside{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px 14px;align-self:start;position:sticky;top:10px;max-height:calc(100vh - 20px);overflow:auto}
+.btns{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+button{font:inherit;font-size:12.5px;border:1px solid var(--line);background:#fff;border-radius:5px;padding:6px 10px;cursor:pointer;color:var(--ink)}
+button:hover{border-color:var(--navy)}button.w{border-left:4px solid var(--red)}button.b{border-left:4px solid var(--navy)}button.g{border-left:4px solid var(--green)}
+button.pri{background:var(--navy);color:#fff;border-color:var(--navy)}button.on{background:#eef1f5;font-weight:600}
+details{border-top:1px solid var(--line);padding:6px 0}details[open]{padding-bottom:8px}
+summary{cursor:pointer;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;color:var(--navy);padding:4px 0}
+.in{display:grid;grid-template-columns:1fr 92px;gap:2px 8px;align-items:center;margin:7px 0 2px}
+.in label{font-size:12.5px;grid-column:1/3;display:flex;justify-content:space-between}.in label small{color:var(--mute)}
+.in input[type=range]{width:100%;accent-color:var(--navy)}
+.in input[type=text]{width:92px;font:inherit;font-size:12.5px;padding:3px 5px;border:1px solid var(--line);border-radius:4px;text-align:right}
+.in select{grid-column:1/3;font:inherit;padding:4px;border:1px solid var(--line);border-radius:4px}
+main{min-width:0}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.kpi span{display:block;font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--mute)}
+.kpi b{display:block;font-family:"Noto Serif Display",Georgia,serif;font-size:24px;font-weight:600;color:var(--navy);margin-top:2px}
+.kpi b.neg{color:var(--red)}.kpi b.pos{color:var(--green)}.kpi i{font-style:normal;font-size:12px;color:var(--mute)}
+.card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-top:12px}
+.card h2{font-family:"Noto Serif Display",Georgia,serif;font-weight:600;font-size:18px;color:var(--navy);margin:0 0 8px}
+.card h2 small{font-family:Inter,Arial,sans-serif;font-size:12px;font-weight:400;color:var(--mute)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{padding:4px 6px;border-bottom:1px solid var(--line);text-align:right}th:first-child,td:first-child{text-align:left}
+thead th{background:var(--navy);color:#fff;font-weight:600}
+tr.grp td{font-weight:700;font-style:italic;color:var(--navy);background:#f4f6f9}tr.tot td{font-weight:700;border-top:2px solid var(--navy)}
+.bar{position:relative;height:26px;margin:6px 0 2px;background:#f4f6f9;border-radius:3px;overflow:hidden;display:flex}
+.bar div{height:100%;color:#fff;font-size:11px;display:flex;align-items:center;padding-left:5px;white-space:nowrap;overflow:hidden}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:11.5px;color:var(--mute);margin-top:6px}.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.heat td,.heat th{text-align:center;padding:6px 4px}.heat td{font-weight:600}.heat td small{display:block;font-weight:400;font-size:11px}
+.heat td.cur{outline:2px solid var(--navy);outline-offset:-2px}.heat th.r{background:#eef1f5;color:var(--navy)}
+.warn{background:#fff4e5;border:1px solid #f0c98a;border-radius:6px;padding:6px 10px;margin-top:10px;font-size:12.5px;display:none}
+.note{font-size:12px;color:var(--mute);margin-top:8px}
+footer{max-width:1400px;margin:0 auto;padding:4px 24px 24px;font-size:12px;color:var(--mute)}
+#mbar{display:none}
+#toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:8px 14px;border-radius:6px;font-size:13px;display:none}
+@media (max-width:900px){#mbar{display:flex;position:sticky;top:0;z-index:5;background:#14233a;color:#fff;justify-content:space-around;padding:7px 6px;font-size:12px;border-bottom:2px solid var(--gold)}#mbar div{text-align:center}#mbar span{display:block;font-size:9.5px;letter-spacing:1px;text-transform:uppercase;color:#c9d2de}#mbar b{font-size:15px}.wrap{grid-template-columns:1fr;padding:12px}aside{position:static;max-height:none}.kpis{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}header{padding:14px}header h1{font-size:22px}.kpi b{font-size:20px}}
+</style></head><body>
+<header><div class="eyebrow">Lot acquisition &amp; spec build · Old Northeast, St. Petersburg</div>
+<h1>1500 N Shore Dr NE — Interactive pro forma <span class="draft">DRAFT</span></h1>
+<p>A 4,500 sf spec home on a 14,160 sf corner lot facing North Shore Park, bought on a deferred-interest seller note and built with a spec construction loan. Move any assumption and every figure updates. Estimates for discussion only, not an appraisal, bid or offer.</p></header>
+<div id="mbar"><div><span>Profit</span><b id="m_net"></b></div><div><span>Margin</span><b id="m_mg"></b></div><div><span>Total cost</span><b id="m_cost"></b></div><div><span>Owner cash</span><b id="m_cash"></b></div></div>
+<div class="wrap"><aside>
+<div class="btns"><button class="w" data-preset="worst">Worst</button><button class="b on" data-preset="base">Base</button><button class="g" data-preset="best">Best</button><button id="reset">Reset</button><button class="pri" id="copy">Copy link to this scenario</button></div>
+<div id="inputs"></div></aside>
+<main>
+<div class="kpis">
+<div class="kpi"><span>Net profit at sale</span><b id="k_net"></b><i id="k_margin"></i></div>
+<div class="kpi"><span>Total cost before sale</span><b id="k_cost"></b><i id="k_costpsf"></i></div>
+<div class="kpi"><span>Sale price</span><b id="k_sale"></b><i id="k_salenet"></i></div>
+<div class="kpi"><span>Owner cash, total</span><b id="k_cash"></b><i id="k_upfront"></i></div>
+</div>
+<div class="warn" id="warn"></div>
+<div class="card"><h2>Cost vs. proceeds</h2><div id="bars"></div>
+<div class="legend"><span><i style="background:#1F3A5F"></i>Land</span><span><i style="background:#7a93b5"></i>Soft costs</span><span><i style="background:#C9A25E"></i>Build</span><span><i style="background:#9aa4b2"></i>Financing &amp; carry</span><span><i style="background:#2e7d5b"></i>Sale price less sale costs</span></div></div>
+<div class="two">
+<div class="card"><h2>Key outputs</h2><table id="keyout"></table></div>
+<div class="card"><h2>Monthly carry paid by the owner</h2><table id="carry"></table><p class="note">Seller-note interest accrues and is paid at the sale closing, so it is not part of the monthly cash carry.</p></div>
+</div>
+<div class="card"><h2>Profit and margin: hard cost vs. sale price <small>· every other input as set; outlined cell = current scenario</small></h2><div style="overflow-x:auto"><table class="heat" id="heat"></table></div>
+<div class="legend"><span><i style="background:#c9544c"></i>≤ −20%</span><span><i style="background:#f1b5ad"></i>−10%</span><span><i style="background:#f9e2dd"></i>0%</span><span><i style="background:#cfe9d8"></i>+7%</span><span><i style="background:#2e7d5b"></i>≥ 15% target</span></div></div>
+<div class="card"><h2>Sources &amp; uses</h2><table id="su"></table></div>
+<div class="card"><h2>How the model works</h2><div class="note" style="color:var(--ink)">
+<p><b>Seller note.</b> The land is bought with a seller note (0% down by default) whose simple interest accrues and is paid with the principal at the sale closing. The note is subordinated to the construction loan. The model flags a timeline longer than the note term.</p>
+<p><b>Construction loan.</b> The loan funds the loan-to-cost share of the non-land project budget (design, permits, utilities, building, site, pool, the full contingency budget and the GC qualifier fee). Interest is paid monthly on the drawn balance: the loan draws on a monthly schedule over the build (front-loaded, S-curve or back-loaded), then stays fully drawn through the sale period. Points and note stamps/intangible tax are charged on the loan amount.</p>
+<p><b>Owner cash.</b> The owner funds the rest of the project budget, any land down payment, land and loan closing, construction interest, property tax and insurance. Only the contingency actually spent counts as a cost; the unspent remainder comes back at the sale.</p>
+<p><b>GC qualifier.</b> A licensed general contractor serves as the license-holder/qualifier while the owner's team manages the build; general conditions and site supervision are already inside the hard $/sf. Florida qualifier fees are typically a monthly retainer (≈$500–$5,000+) or ≈1–3% of revenue. Under Fla. Stat. §489.1195 the qualifier must actually supervise the work and the finances, and the arrangement has to be bona fide.</p>
+<p><b>Sale.</b> Sale costs are the buyer-side commission, documentary stamps on the deed and the promulgated owner's title premium. Break-even and 15%-margin sale $/sf are solved against those costs.</p></div></div>
+</main></div>
+<footer>1500 N Shore Dr NE · Interactive pro forma · DRAFT for discussion. Figures are estimates, not an appraisal, bid, loan offer or legal advice.</footer>
+<div id="toast">Link copied</div>
+<script>
+// Port of scripts/deal_model.py run() (v13.8 + GC qualifier). Keep formulas identical.
+const CURVES={front:x=>1-(1-x)**2,s:x=>3*x**2-2*x**3,back:x=>x**2};
+function drawSchedule(curve,mb){const F=CURVES[curve];const cum=[];for(let m=0;m<=mb;m++)cum.push(F(m/mb));
+  const avg=[];for(let m=1;m<=mb;m++)avg.push((cum[m-1]+cum[m])/2);return {cum,avg};}
+function titleIns(p){return Math.min(p,100e3)*5.75/1000+Math.max(0,Math.min(p,1e6)-100e3)*5/1000+Math.max(0,Math.min(p,5e6)-1e6)*2.5/1000+Math.max(0,Math.min(p,10e6)-5e6)*2.25/1000;}
+const DEFAULTS={land:2500000,down:0,noteRate:3,noteTerm:36,sf:4500,hard:450,sale:1450,pool:160000,site:75000,design:165000,permits:40000,util:15000,
+  contPct:10,contSpent:5,gcPct:2,rate:10,ltc:70,points:2,loanFees:10000,draw:'s',mD:9,mB:15,mS:3,brPct:1.5,glFlood:10000,propTax:1813568*19.9197/1000,
+  buyerComm:2.75,deedStamps:0.70,landOther:15000};
+const PRESETS={worst:{hard:550,sale:1350,contSpent:10,noteRate:6},base:{hard:450,sale:1450,contSpent:5,noteRate:3},best:{hard:350,sale:1550,contSpent:1,noteRate:0}};
+const NOTE_STAMPS=0.0035,INTANG=0.002;
+function model(p){
+  const Md=p.mD,Mb=p.mB,Ms=p.mS,M=Md+Mb+Ms, rate=p.rate/100, ltc=p.ltc/100, CONT=p.contPct/100;
+  const comm=p.buyerComm/100, deed=p.deedStamps/100, ORIG=p.points/100;
+  const ds=drawSchedule(p.draw,Mb); const AVGB=ds.avg.reduce((a,b)=>a+b,0)/Mb;
+  const hard=p.sf*p.hard, bld=hard+p.site+p.pool, cont=bld*CONT, build=bld+cont, value=p.sf*p.sale;
+  const contUsed=CONT>0?Math.min(1,(p.contSpent/100)/CONT):0;          // spent % of build budget -> share of contingency
+  const soft=p.design+p.permits+p.util;
+  const gcfee=hard*p.gcPct/100;
+  const budget=soft+build+gcfee; const L=ltc*budget;
+  const down=p.land*p.down/100, note=p.land-down;
+  const lines=[];const add=(g,k,v)=>lines.push([g,k,v]);
+  const landClose=note*(NOTE_STAMPS+INTANG)+p.landOther;
+  const loanClose=L*(ORIG+NOTE_STAMPS+INTANG)+p.loanFees;
+  const noteInt=note*p.noteRate/100*M/12;
+  const cint=rate*L*(AVGB*Mb+Ms)/12;
+  const taxM=p.propTax/12, tax=taxM*M;
+  const ins=build*p.brPct/100*(Mb+Ms)/12+p.glFlood*M/12;
+  add('Land','Land price ('+(p.down?p.down+'% down, ':'0% down, ')+'seller note)',p.land);
+  add('Land','Land closing (note stamps, intangible tax, title/recording)',landClose);
+  add('Soft costs','Design, engineering, survey',p.design);
+  add('Soft costs','Permits & impact fees',p.permits);
+  add('Soft costs','Utilities',p.util);
+  add('Build','Hard cost, building only',hard);
+  add('Build','Site work & fill',p.site);
+  add('Build','Pool, hardscape, landscape',p.pool);
+  add('Build','Contingency spent',cont*contUsed);
+  add('Build','GC qualifier fee',gcfee);
+  add('Financing & carry','Construction loan closing',loanClose);
+  add('Financing & carry','Seller-note interest (accrued, paid at sale)',noteInt);
+  add('Financing & carry','Construction interest (paid monthly)',cint);
+  add('Financing & carry','Property tax',tax);
+  add('Financing & carry',"Insurance (builder's risk, GL, flood)",ins);
+  const cost=lines.reduce((a,l)=>a+l[2],0);
+  const saleCosts=value*(comm+deed)+titleIns(value);
+  const net=value-saleCosts-cost;
+  const eq30=budget-L;
+  const cashOther=landClose+loanClose+cint+tax+ins;
+  const ownerCash=eq30+cashOther+down;
+  const be=c=>{let x=c;for(let i=0;i<30;i++)x=c+x*(comm+deed)+titleIns(x);return x;};
+  return {lines,cost,value,saleCosts,net,margin:net/cost,loan:L,budget,eq30,ownerCash,upfront:eq30+landClose+loanClose+down,
+    cint,tax,ins,noteInt,notePrincipal:note,notePayoff:note+noteInt,down,landClose,loanClose,contBudget:cont,contSpentAmt:cont*contUsed,gcfee,
+    bePsf:be(cost)/p.sf,t15Psf:be(cost*1.15)/p.sf,M,avgDraw:AVGB,
+    carryDesign:taxM+p.glFlood/12,carryBuild:rate*L*AVGB/12+taxM+build*p.brPct/100/12+p.glFlood/12,
+    carrySell:rate*L/12+taxM+build*p.brPct/100/12+p.glFlood/12,noteAccrM:note*p.noteRate/100/12,
+    proceedsNet:value-saleCosts,termWarn:M>p.noteTerm};
+}
+
+
+</script>
+<script>
+const SPEC=[
+ ['Land & seller note',[['land','Land price',1500000,3500000,25000,'$'],['down','Down payment',0,50,1,'%'],['noteRate','Seller-note rate (simple, deferred)',0,10,0.25,'%'],['noteTerm','Note term',12,60,1,'mo'],['landOther','Land closing: title/recording',0,50000,500,'$']]],
+ ['Home & sale',[['sf','Size (living area)',3000,6500,100,'sf'],['hard','Hard cost, building only',250,800,5,'$/sf'],['sale','Sale price',1000,2000,10,'$/sf'],['buyerComm','Buyer-side commission',0,6,0.25,'%'],['deedStamps','Deed stamps (seller)',0,1,0.05,'%']]],
+ ['Other project costs',[['pool','Pool, hardscape, landscape',0,400000,5000,'$'],['site','Site work & fill',0,250000,5000,'$'],['design','Architect / engineering / survey',50000,400000,5000,'$'],['permits','Permits & impact fees',10000,120000,1000,'$'],['util','Utilities',0,50000,1000,'$'],['contPct','Contingency budget (% of build budget)',0,20,0.5,'%'],['contSpent','Contingency spent (% of build budget)',0,20,0.5,'%'],['gcPct','GC qualifier fee (% of hard cost)',0,20,0.25,'%']]],
+ ['Construction loan',[['rate','Interest rate',6,14,0.25,'%'],['ltc','Loan-to-cost (non-land budget)',0,90,1,'%'],['points','Points / origination',0,4,0.25,'%'],['loanFees','Other loan fees',0,50000,500,'$'],['draw','Draw pace',null,null,null,'sel']]],
+ ['Timeline',[['mD','Design & permit',3,18,1,'mo'],['mB','Build',9,30,1,'mo'],['mS','Marketing & sale',1,18,1,'mo']]],
+ ['Tax & insurance',[['brPct',"Builder's risk (% of build budget / yr)",0,4,0.1,'%'],['glFlood','Liability + flood',0,40000,500,'$/yr'],['propTax','Property tax',0,100000,500,'$/yr']]]
+];
+let P={...DEFAULTS,...PRESETS.base};
+const $=id=>document.getElementById(id);
+const M0=n=>(n<0?'−':'')+'$'+Math.round(Math.abs(n)).toLocaleString('en-US');
+const R2=n=>(Math.round(Math.abs(n)/1e4+1e-9)/100).toFixed(2);
+const MM=n=>(n<0?'−':'')+'$'+R2(n)+'M';
+const SG=n=>(n>=0?'+':'−')+'$'+R2(n)+'M';
+const PC=n=>(n>=0?'+':'−')+Math.abs(n*100).toFixed(1)+'%';
+function buildInputs(){let h='';SPEC.forEach(([g,items],i)=>{h+=`<details ${(window.innerWidth>900?i<3:i<1)?'open':''}><summary>${g}</summary>`;
+ items.forEach(([k,l,mn,mx,st,u])=>{if(u==='sel'){h+=`<div class="in"><label>${l}</label><select id="i_${k}"><option value="front">Front-loaded (fast spend)</option><option value="s">S-curve (base)</option><option value="back">Back-loaded (slow spend)</option></select></div>`;return;}
+  h+=`<div class="in"><label for="n_${k}">${l}<small>${u}</small></label><input type="range" id="r_${k}" min="${mn}" max="${mx}" step="${st}"><input type="text" inputmode="decimal" autocomplete="off" id="n_${k}"></div>`;});h+='</details>';});
+ $('inputs').innerHTML=h;
+ SPEC.forEach(([,items])=>items.forEach(([k,,,,,u])=>{if(u==='sel'){$('i_'+k).onchange=e=>{P[k]=e.target.value;upd();};return;}
+  $('r_'+k).oninput=e=>{P[k]=+e.target.value;$('n_'+k).value=P[k];upd();};
+  $('n_'+k).oninput=e=>{const v=num(e.target.value);if(!isNaN(v)){P[k]=v;$('r_'+k).value=v;upd();}};
+  $('n_'+k).onblur=e=>{e.target.value=fmt(P[k]);};
+  $('n_'+k).onkeydown=e=>{if(e.key==='Enter')e.target.blur();};}));}
+const num=s=>parseFloat(String(s).replace(/[,\s$%]/g,''));
+const fmt=v=>(Math.round(v*100)/100).toLocaleString('en-US',{maximumFractionDigits:2});
+function syncInputs(){SPEC.forEach(([,items])=>items.forEach(([k,,,,,u])=>{if(u==='sel'){$('i_'+k).value=P[k];return;}const v=Math.round(P[k]*100)/100;$('r_'+k).value=v;$('n_'+k).value=fmt(v);}));}
+function heatColor(m){if(m>=0.15)return['#2e7d5b','#fff'];if(m>=0.07)return['#cfe9d8','#1d2533'];if(m>=0)return['#e8f3ec','#1d2533'];if(m>=-0.10)return['#f9e2dd','#1d2533'];if(m>=-0.20)return['#f1b5ad','#1d2533'];return['#c9544c','#fff'];}
+function upd(){const r=model(P);
+ $('k_net').textContent=SG(r.net);$('k_net').className=r.net<0?'neg':'pos';$('k_margin').textContent=PC(r.margin)+' margin on cost';
+ $('m_net').textContent=SG(r.net);$('m_mg').textContent=PC(r.margin);$('m_cost').textContent=MM(r.cost);$('m_cash').textContent=MM(r.ownerCash);
+ $('k_cost').textContent=MM(r.cost);$('k_costpsf').textContent='$'+Math.round(r.cost/P.sf).toLocaleString()+'/sf all-in';
+ $('k_sale').textContent=MM(r.value);$('k_salenet').textContent=MM(r.proceedsNet)+' after sale costs';
+ $('k_cash').textContent=MM(r.ownerCash);$('k_upfront').textContent=MM(r.upfront)+' up front (equity first)';
+ const w=[];if(r.termWarn)w.push(`The ${r.M}-month timeline runs past the ${P.noteTerm}-month note term: the note would mature before the sale, so extension terms are needed.`);
+ if(P.contSpent>P.contPct)w.push('Contingency spent is above the contingency budget; the overrun is counted as cost but the loan is sized on the budget only.');
+ $('warn').innerHTML=w.join('<br>');$('warn').style.display=w.length?'block':'none';
+ // bars
+ const grp={};r.lines.forEach(([g,,v])=>grp[g]=(grp[g]||0)+v);const mx=Math.max(r.cost,r.proceedsNet)*1.02;
+ const col={'Land':'#1F3A5F','Soft costs':'#7a93b5','Build':'#C9A25E','Financing & carry':'#9aa4b2'};
+ $('bars').innerHTML='<div class="bar">'+Object.entries(grp).map(([g,v])=>`<div style="width:${v/mx*100}%;background:${col[g]}" title="${g} ${M0(v)}">${g.split(' ')[0]} ${MM(v)}</div>`).join('')+`</div><div style="font-size:12px;color:var(--mute)">Total cost ${MM(r.cost)}</div>`+
+  `<div class="bar"><div style="width:${r.proceedsNet/mx*100}%;background:#2e7d5b">Net proceeds ${MM(r.proceedsNet)}</div></div><div style="font-size:12px;color:${r.net<0?'var(--red)':'var(--green)'}">Profit ${SG(r.net)} (${PC(r.margin)})</div>`;
+ // key outputs
+ $('keyout').innerHTML=[['Construction loan',M0(r.loan)],['Owner equity in project budget',M0(r.eq30)],['Peak owner cash (cumulative, reached at sale)',M0(r.ownerCash)],['Contingency budget / spent',M0(r.contBudget)+' / '+M0(r.contSpentAmt)],['GC qualifier fee',M0(r.gcfee)],['Seller-note interest accrued',M0(r.noteInt)],['Seller-note payoff at sale',M0(r.notePayoff)],['Break-even sale price',`$${Math.round(r.bePsf).toLocaleString()}/sf`],['Sale price for a 15% margin',`$${Math.round(r.t15Psf).toLocaleString()}/sf`],['Timeline',r.M+' months'],['Average loan drawn during build',(r.avgDraw*100).toFixed(1)+'%']].map(([a,b])=>`<tr><td>${a}</td><td>${b}</td></tr>`).join('');
+ $('carry').innerHTML=`<thead><tr><th>Phase</th><th>Months</th><th>Per month</th></tr></thead>`+[[`Design &amp; permit`,P.mD,r.carryDesign],['Construction (average)',P.mB,r.carryBuild],['Marketing &amp; sale',P.mS,r.carrySell]].map(([a,m,v])=>`<tr><td>${a}</td><td>${m}</td><td>${M0(v)}</td></tr>`).join('')+`<tr><td><i>Memo: note interest accruing</i></td><td>${r.M}</td><td><i>${M0(r.noteAccrM)}</i></td></tr>`;
+ // S&U
+ let su='<thead><tr><th>Uses</th><th>Amount</th><th>$/sf</th></tr></thead>',g0='';r.lines.forEach(([g,k,v])=>{if(g!==g0){su+=`<tr class="grp"><td colspan="3">${g}</td></tr>`;g0=g;}su+=`<tr><td>${k}</td><td>${M0(v)}</td><td>${Math.round(v/P.sf)}</td></tr>`;});
+ su+=`<tr class="tot"><td>Total cost before sale</td><td>${M0(r.cost)}</td><td>${Math.round(r.cost/P.sf)}</td></tr><tr class="grp"><td colspan="3">Sources</td></tr>`+
+ `<tr><td>Seller note (repaid at sale)</td><td>${M0(r.notePrincipal)}</td><td></td></tr><tr><td>Seller-note interest, accrued (paid from sale proceeds)</td><td>${M0(r.noteInt)}</td><td></td></tr><tr><td>Construction loan (${P.ltc}% of non-land budget)</td><td>${M0(r.loan)}</td><td></td></tr>`+
+ `<tr class="tot"><td>Owner cash</td><td>${M0(r.ownerCash)}</td><td></td></tr><tr><td>Less: contingency not spent (undrawn; released at sale)</td><td>${M0(r.cost-r.notePrincipal-r.noteInt-r.loan-r.ownerCash)}</td><td></td></tr>`+
+ `<tr class="grp"><td colspan="3">Sale</td></tr><tr><td>Sale price</td><td>${M0(r.value)}</td><td>${P.sale}</td></tr><tr><td>Sale costs (commission, deed stamps, title)</td><td>${M0(-r.saleCosts)}</td><td></td></tr><tr class="tot"><td>Net profit at sale</td><td>${M0(r.net)}</td><td>${PC(r.margin)}</td></tr>`;
+ $('su').innerHTML=su;
+ // heat
+ const hs=[-100,-50,0,50,100].map(d=>P.hard+d),ss=[-100,-50,0,50,100].map(d=>P.sale+d);
+ let ht='<thead><tr><th>Hard ↓ · Sale →</th>'+ss.map(s=>`<th>$${s.toLocaleString()}/sf</th>`).join('')+'<th>Break-even</th></tr></thead>';
+ hs.forEach(h=>{if(h<=0)return;ht+=`<tr><th class="r">$${h}/sf</th>`;ss.forEach(s=>{const x=model({...P,hard:h,sale:s});const [bg,fg]=heatColor(x.margin);ht+=`<td class="${h===P.hard&&s===P.sale?'cur':''}" style="background:${bg};color:${fg}">${PC(x.margin)}<small>${SG(x.net)}</small></td>`;});
+  ht+=`<td>$${Math.round(model({...P,hard:h}).bePsf).toLocaleString()}/sf</td></tr>`;});
+ $('heat').innerHTML=ht;
+ history.replaceState(null,'','#'+enc());
+ document.querySelectorAll('[data-preset]').forEach(b=>{const pr=PRESETS[b.dataset.preset];b.classList.toggle('on',Object.entries({...DEFAULTS,...pr}).every(([k,v])=>P[k]===v));});
+}
+const KEYS=Object.keys(DEFAULTS);
+function enc(){return KEYS.filter(k=>P[k]!==DEFAULTS[k]).map(k=>k+'='+encodeURIComponent(P[k])).join('&');}
+function dec(h){const o={...DEFAULTS};h.replace(/^#/,'').split('&').forEach(kv=>{const [k,v]=kv.split('=');if(KEYS.includes(k)&&v!==undefined){o[k]=k==='draw'?decodeURIComponent(v):parseFloat(v);}});return o;}
+buildInputs();
+if(location.hash.length>1)P=dec(location.hash);
+syncInputs();upd();
+document.querySelectorAll('[data-preset]').forEach(b=>b.onclick=()=>{P={...P,...PRESETS[b.dataset.preset]};syncInputs();upd();});
+$('reset').onclick=()=>{P={...DEFAULTS,...PRESETS.base};syncInputs();upd();};
+$('copy').onclick=async()=>{const u=location.href;try{await navigator.clipboard.writeText(u);}catch(e){const t=document.createElement('textarea');t.value=u;document.body.appendChild(t);t.select();try{document.execCommand('copy');}catch(_){}t.remove();}
+ const s=$('toast');s.textContent='Link copied';s.style.display='block';setTimeout(()=>s.style.display='none',1600);};
+</script></body></html>
