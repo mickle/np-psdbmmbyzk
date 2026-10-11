@@ -166,13 +166,14 @@ function buildInputs(){let h='';SPEC.forEach(([g,items],i)=>{h+=`<details ${(win
   h+=`<div class="in"><label for="n_${k}">${l}<small>${u}</small></label><input type="range" id="r_${k}" min="${mn}" max="${mx}" step="${st}"><input type="text" inputmode="decimal" autocomplete="off" id="n_${k}"></div>`;});h+='</details>';});
  $('inputs').innerHTML=h;
  SPEC.forEach(([,items])=>items.forEach(([k,,,,,u])=>{if(u==='sel'){$('i_'+k).onchange=e=>{P[k]=e.target.value;upd();};return;}
-  $('r_'+k).oninput=e=>{P[k]=+e.target.value;$('n_'+k).value=P[k];upd();};
+  $('r_'+k).oninput=$('r_'+k).onchange=e=>{P[k]=+e.target.value;setBox(k);upd();};
   $('n_'+k).oninput=e=>{const v=num(e.target.value);if(!isNaN(v)){P[k]=v;$('r_'+k).value=v;upd();}};
-  $('n_'+k).onblur=e=>{e.target.value=fmt(P[k]);};
+  $('n_'+k).onblur=()=>setBox(k);
   $('n_'+k).onkeydown=e=>{if(e.key==='Enter')e.target.blur();};}));}
 const num=s=>parseFloat(String(s).replace(/[,\s$%]/g,''));
+function setBox(k){$('n_'+k).value=fmt(P[k]);}
 const fmt=v=>(Math.round(v*100)/100).toLocaleString('en-US',{maximumFractionDigits:2});
-function syncInputs(){SPEC.forEach(([,items])=>items.forEach(([k,,,,,u])=>{if(u==='sel'){$('i_'+k).value=P[k];return;}const v=Math.round(P[k]*100)/100;$('r_'+k).value=v;$('n_'+k).value=fmt(v);}));}
+function syncInputs(){SPEC.forEach(([,items])=>items.forEach(([k,,,,,u])=>{if(u==='sel'){$('i_'+k).value=P[k];return;}const v=Math.round(P[k]*100)/100;$('r_'+k).value=v;setBox(k);}));}
 function heatColor(m){if(m>=0.15)return['#2e7d5b','#fff'];if(m>=0.07)return['#cfe9d8','#1d2533'];if(m>=0)return['#e8f3ec','#1d2533'];if(m>=-0.10)return['#f9e2dd','#1d2533'];if(m>=-0.20)return['#f1b5ad','#1d2533'];return['#c9544c','#fff'];}
 function upd(){const r=model(P);
  $('k_net').textContent=SG(r.net);$('k_net').className=r.net<0?'neg':'pos';$('k_margin').textContent=PC(r.margin)+' margin on cost';
