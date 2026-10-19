@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:,">
+<title>Private</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; display: grid; place-items: center;
+    background: #12161c; color: #ece7df;
+    font: 16px/1.45 Georgia, "Iowan Old Style", Palatino, serif;
+  }
+  main { width: min(420px, calc(100% - 32px)); }
+  h1 { font-weight: 500; font-size: 28px; margin: 0 0 8px; letter-spacing: -0.02em; }
+  #lead { margin: 0 0 18px; color: #b7b1a6; }
+  form { display: grid; gap: 10px; }
+  label { font: 600 12px/1 system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: #b7b1a6; }
+  input {
+    font: 16px/1.3 system-ui, sans-serif; padding: 12px 14px; border-radius: 8px;
+    border: 1px solid #3c4450; background: #0c1015; color: inherit; width: 100%;
+  }
+  button {
+    font: 600 15px/1 system-ui, sans-serif; padding: 12px 14px; border: 0; border-radius: 8px;
+    background: #efe8da; color: #1b1610; cursor: pointer;
+  }
+  button:disabled { opacity: 0.65; cursor: progress; }
+  #msg { min-height: 1.4em; margin: 12px 0 0; font: 14px/1.4 system-ui, sans-serif; color: #e7b2a8; }
+  noscript { font: 14px/1.4 system-ui, sans-serif; color: #e7b2a8; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Private page</h1>
+  <p id="lead">Enter the password to continue.</p>
+  <form id="gate">
+    <label for="pw">Password</label>
+    <input type="text" name="username" autocomplete="username" hidden value="">
+    <input id="pw" type="password" name="password" autocomplete="current-password" spellcheck="false" required>
+    <button id="go" type="submit">Unlock</button>
+  </form>
+  <p id="msg" role="alert"></p>
+  <noscript>This page needs JavaScript to unlock.</noscript>
+</main>
+<script>
+(function () {
+  var BOOT = '<script>(function(){var K="np.key";function reply(w){var raw=null;try{raw=sessionStorage.getItem(K);}catch(e){}if(!w)return;if(raw)w.postMessage({type:"unlock",raw:raw});else w.postMessage({type:"locked"});}if(!navigator.serviceWorker)return;navigator.serviceWorker.addEventListener("message",function(e){if(e.data&&e.data.type==="need-key")reply(e.source||navigator.serviceWorker.controller);});navigator.serviceWorker.ready.then(function(reg){reply(reg.active);});})();<\/script>';
+  var SS = 'np.key';
+  var form = document.getElementById('gate');
+  var pw = document.getElementById('pw');
+  var go = document.getElementById('go');
+  var lead = document.getElementById('lead');
+  var msg = document.getElementById('msg');
+  var vaultPromise = null;
+
+  function siteBase() {
+    var path = location.pathname;
+    if (path.endsWith('/index.html')) path = path.slice(0, -'index.html'.length);
+    else if (!path.endsWith('/')) path += '/';
+    return location.origin + path;
+  }
+
+  function b64ToBuf(b64) {
+    var s = atob(b64);
+    var bytes = new Uint8Array(s.length);
+    for (var i = 0; i < s.length; i++) bytes[i] = s.charCodeAt(i);
+    return bytes;
+  }
+
+  function bufToB64(buf) {
+    var bytes = new Uint8Array(buf);
+    var s = '';
+    for (var i = 0; i < bytes.length; i++) s += String.fromCharCode(bytes[i]);
+    return btoa(s);
+  }
+
+  function parseFragment(hash) {
+    var raw = hash.charAt(0) === '#' ? hash.slice(1) : hash;
+    if (raw.indexOf('k=') === 0) {
+      var amp = raw.indexOf('&');
+      var enc = amp === -1 ? raw.slice(2) : raw.slice(2, amp);
+      var key = '';
+      try { key = decodeURIComponent(enc); } catch (e) { key = enc; }
+      var rest = amp === -1 ? '' : raw.slice(amp + 1);
+      return { key: key, keep: rest ? '#' + rest : '' };
+    }
+    return { key: '', keep: raw ? '#' + raw : '' };
+  }
+
+  function setBusy(text) {
+    form.hidden = true;
+    go.disabled = true;
+    lead.textContent = text;
+    msg.textContent = '';
+  }
+
+  function showForm(error) {
+    form.hidden = false;
+    go.disabled = false;
+    lead.textContent = 'Enter the password to continue.';
+    msg.textContent = error || '';
+    pw.focus();
+  }
+
+  function loadVault() {
+    if (!vaultPromise) {
+      vaultPromise = fetch(new URL('vault.json', siteBase()), { cache: 'no-store' }).then(function (res) {
+        if (!res.ok) throw new Error('missing');
+        return res.json();
+      });
+    }
+    return vaultPromise;
+  }
+
+  function badKey(err) {
+    return err && (err.name === 'OperationError' || err.message === 'bad-key');
+  }
+
+  async function derive(password, vault) {
+    if (!vault || vault.kdf !== 'PBKDF2' || vault.hash !== 'SHA-256') throw new Error('bad vault');
+    if (vault.iterations < 100000 || vault.iterations > 5000000) throw new Error('bad vault');
+    var salt = b64ToBuf(vault.salt);
+    var km = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveBits']);
+    return crypto.subtle.deriveBits(
+      { name: 'PBKDF2', salt: salt, iterations: vault.iterations, hash: 'SHA-256' },
+      km,
+      256
+    );
+  }
+
+  async function importAes(raw) {
+    return crypto.subtle.importKey('raw', raw, { name: 'AES-GCM' }, false, ['decrypt']);
+  }
+
+  async function decryptManifest(raw, vault) {
+    var aes = await importAes(raw);
+    try {
+      var plain = await crypto.subtle.decrypt(
+        { name: 'AES-GCM', iv: b64ToBuf(vault.iv) },
+        aes,
+        b64ToBuf(vault.manifest)
+      );
+      var manifest = JSON.parse(new TextDecoder().decode(plain));
+      if (!manifest.files || !manifest.files['index.html']) throw new Error('bad manifest');
+      return { aes: aes, manifest: manifest };
+    } catch (err) {
+      if (err && err.name === 'OperationError') throw err;
+      throw new Error('bad-key');
+    }
+  }
+
+  async function controlSW() {
+    var reg = await navigator.serviceWorker.register(new URL('sw.js', siteBase()).href, { scope: siteBase() });
+    await navigator.serviceWorker.ready;
+    if (navigator.serviceWorker.controller) return reg;
+    if (reg.active) reg.active.postMessage({ type: 'claim' });
+    await new Promise(function (resolve, reject) {
+      var timer = setTimeout(function () { reject(new Error('service worker')); }, 8000);
+      navigator.serviceWorker.addEventListener('controllerchange', function () {
+        clearTimeout(timer);
+        resolve();
+      }, { once: true });
+    });
+    if (!navigator.serviceWorker.controller) throw new Error('service worker');
+    return reg;
+  }
+
+  function sendUnlock(b64) {
+    return new Promise(function (resolve, reject) {
+      var timer = setTimeout(function () { reject(new Error('service worker')); }, 15000);
+      function onMsg(event) {
+        if (!event.data) return;
+        if (event.data.type === 'ready') {
+          clearTimeout(timer);
+          navigator.serviceWorker.removeEventListener('message', onMsg);
+          resolve();
+        } else if (event.data.type === 'error') {
+          clearTimeout(timer);
+          navigator.serviceWorker.removeEventListener('message', onMsg);
+          reject(new Error('service worker'));
+        }
+      }
+      navigator.serviceWorker.addEventListener('message', onMsg);
+      navigator.serviceWorker.controller.postMessage({ type: 'unlock', raw: b64 });
+    });
+  }
+
+  function prepare(html) {
+    var tags = '<link rel="icon" href="data:,">' + BOOT;
+    var out = html.indexOf('<head>') !== -1 ? html.replace('<head>', '<head>' + tags) : tags + html;
+    return out.replace('<html lang="en">', '<html lang="en" data-via="write">');
+  }
+
+  async function openDocument(raw, keep, vault) {
+    var opened = await decryptManifest(raw, vault);
+    var entry = opened.manifest.files['index.html'];
+    var res = await fetch(new URL('d/' + entry.id + '.bin', siteBase()), { cache: 'no-store' });
+    if (!res.ok) throw new Error('missing content');
+    var buf = await res.arrayBuffer();
+    var html = new TextDecoder().decode(await crypto.subtle.decrypt(
+      { name: 'AES-GCM', iv: buf.slice(0, 12) },
+      opened.aes,
+      buf.slice(12)
+    ));
+    var cleaned = siteBase() + location.search + (keep || '');
+    history.replaceState(null, '', cleaned);
+    document.open();
+    document.write(prepare(html));
+    document.close();
+  }
+
+  async function boot(raw, keep) {
+    var vault = await loadVault();
+    await decryptManifest(raw, vault);
+    try { sessionStorage.setItem(SS, bufToB64(raw)); } catch (e) {}
+    await controlSW();
+    await sendUnlock(bufToB64(raw));
+    await openDocument(raw, keep, vault);
+  }
+
+  if (navigator.serviceWorker) {
+    navigator.serviceWorker.addEventListener('message', function (event) {
+      if (!event.data || event.data.type !== 'need-key') return;
+      var raw = null;
+      try { raw = sessionStorage.getItem(SS); } catch (e) {}
+      var target = navigator.serviceWorker.controller || event.source;
+      if (!target) return;
+      if (raw) target.postMessage({ type: 'unlock', raw: raw });
+      else target.postMessage({ type: 'locked' });
+    });
+  }
+
+  async function unlockPassword(password, keep) {
+    var vault = await loadVault();
+    var raw = await derive(password, vault);
+    await boot(raw, keep);
+  }
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    var password = pw.value;
+    if (!password) return;
+    setBusy('Unlocking…');
+    unlockPassword(password, parseFragment(location.hash).keep).catch(function (err) {
+      if (badKey(err)) showForm('That password did not work.');
+      else showForm('Could not open the document.');
+    });
+  });
+
+  async function init() {
+    if (!window.crypto || !crypto.subtle || !navigator.serviceWorker) {
+      showForm('This browser cannot unlock the page.');
+      return;
+    }
+    var frag = parseFragment(location.hash);
+    if (frag.key) {
+      setBusy('Unlocking…');
+      try {
+        await unlockPassword(frag.key, frag.keep);
+      } catch (err) {
+        try { sessionStorage.removeItem(SS); } catch (e) {}
+        if (badKey(err)) showForm('That password did not work.');
+        else showForm('Could not open the document.');
+      }
+      return;
+    }
+    var stored = null;
+    try { stored = sessionStorage.getItem(SS); } catch (e) {}
+    if (stored) {
+      setBusy('Unlocking…');
+      try {
+        await boot(b64ToBuf(stored).buffer, frag.keep);
+      } catch (err) {
+        try { sessionStorage.removeItem(SS); } catch (e) {}
+        showForm('Unlock failed. Enter the password again.');
+      }
+      return;
+    }
+    showForm('');
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

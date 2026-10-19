@@ -1,0 +1,6 @@
+# Editable deck source. Never commit this directory.
+plaintext/
+
+# Interrupted builds
+d.tmp/
+vault.json.tmp
